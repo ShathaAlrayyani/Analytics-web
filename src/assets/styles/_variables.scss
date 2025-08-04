@@ -1,0 +1,19 @@
+$primary-border-radius: 25px;
+$page-padding: 24px 44px;
+$blur: 15px;
+
+// Colors
+$black-color-opacity40: rgb(0 0 0 / 0.4);
+$black-color: rgb(0 0 0);
+$black-color-opacity4: rgb(0 0 0 / 0.04);
+$flush-orange-color: rgb(255 127 0);
+$gray-color-opacity35: rgb(142 142 142 / 35%);
+$gray-color: rgb(142 142 142);
+$spindle-color: rgb(174 199 237);
+$white-color: rgb(255 255 255);
+$linear-background: linear-gradient(
+  to bottom,
+  rgb(152 150 150 / 0.35) 0%,
+  rgb(62 61 61 / 0.35) 63%,
+  rgb(50 49 49 / 0.35) 100%
+);

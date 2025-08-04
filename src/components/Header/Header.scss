@@ -1,0 +1,25 @@
+@use '../../assets/styles/variables' as vars;
+/* Header styles */
+
+.header-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(5px);
+  background-color: vars.$gray-color-opacity35; /* replace with your gray-color-opacity35 */
+  border-radius: vars.$primary-border-radius;                     /* replace with your primary-border-radius */
+  height: 93px;
+  width: 100%;
+  padding: 0 45px 0 30px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  color: vars.$white-color;
+}
+
+.header-container > * {
+  cursor: pointer;
+}

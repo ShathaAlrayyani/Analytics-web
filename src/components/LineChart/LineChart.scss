@@ -1,0 +1,23 @@
+@use '../../assets/styles/variables' as vars;
+@use '../../assets/styles/mixins'   as mixins;
+
+.line-chart-container {
+  background-color: vars.$white-color;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 24px;
+
+  @include mixins.respond(laptop) {
+    height: 330px;
+    padding: 16px;
+  }
+}
+
+.chart-title {
+  font-size: 24px;
+  margin: 0;
+}

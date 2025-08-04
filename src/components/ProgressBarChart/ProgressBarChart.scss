@@ -1,0 +1,43 @@
+@use '../../assets/styles/variables' as vars;
+
+.progress-bar-wrapper {
+  display:         flex;
+  flex-direction:  column;
+  background-color: vars.$white-color;
+  padding:         16px;
+  gap:             12px;
+  border-radius:   10px;
+}
+
+.chart-wrapper {
+  display:      flex;
+  flex-wrap:    nowrap;
+}
+
+.progress-container {
+  position:       relative;
+  width:          100%;
+  background-color: vars.$gray-color;
+  border-radius:  5px;
+  height:         6px;
+}
+
+.progress-bar {
+  position:        absolute;
+  top:             0;
+  left:            0;
+  height:          6px;
+  background-color: vars.$flush-orange-color;
+  border-radius:   5px;
+}
+
+.progress-bottom {
+  display:           flex;
+  justify-content:   space-between;
+  align-items:       center;
+}
+
+.progress-title {
+  margin: 0;
+  font-weight: bold;
+}

@@ -1,0 +1,101 @@
+@use '../../assets/styles/variables' as vars;
+@use '../../assets/styles/mixins'   as mixins; // if you have respond() breakpoints
+
+.total-power-chart-container {
+  background-color: vars.$white-color;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 12px;
+  width: 50%;
+
+  > p {
+    font-size: 24px;
+    margin: 0;
+  }
+}
+
+.total-power-chart-chart-wrapper {
+  position: relative;
+}
+
+.total-power-chart-power-icon-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  svg, img {
+    width: 100%;
+  }
+
+  p {
+    position: absolute;
+    align-self: flex-end;
+    bottom: -20px;
+    color: vars.$black-color-opacity40;
+    font-size: 14px;
+    margin: 0;
+
+    @include mixins.respond(laptop) {
+      bottom: 0;
+    }
+    @include mixins.respond(large) {
+      bottom: -15px;
+    }
+  }
+}
+
+.total-power-chart-line-icon-wrapper {
+  display: inline-block;
+  position: absolute;
+  left: 50%;
+  bottom: -32px;
+  transform-origin: left center;
+
+  svg, img {
+    width: 100%;
+  }
+
+  @include mixins.respond(laptop) {
+    bottom: -5px;
+  }
+  @include mixins.respond(large) {
+    bottom: -30px;
+  }
+}
+
+.total-power-chart-bottom-part-wrapper {
+  border-radius: 10px;
+  box-shadow:
+    rgba(0, 0, 0, 0.1) 0px 10px 15px -3px,
+    rgba(0, 0, 0, 0.05) 0px 4px 6px -2px;
+  padding: 16px;
+
+  > p {
+    font-size: 14px;
+    margin: 0;
+  }
+}
+
+.total-power-chart-total-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  h1 {
+    font-size: 24px;
+    margin: 0;
+  }
+
+  p {
+    font-size: 12px;
+    margin: 0;
+    display: flex;
+    align-items: center;
+
+    img {
+      margin-left: 4px;
+    }
+  }
+}

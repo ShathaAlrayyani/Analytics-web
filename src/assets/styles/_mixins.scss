@@ -1,0 +1,16 @@
+// mixin
+@mixin respond($breakpoint) {
+  @if $breakpoint == tablet {
+    @media (min-width: 768px) {
+      @content;
+    }
+  } @else if $breakpoint == laptop {
+    @media (min-width: 1024px) {
+      @content;
+    }
+  } @else if $breakpoint == large {
+    @media (min-width: 1440px) {
+      @content;
+    }
+  }
+}

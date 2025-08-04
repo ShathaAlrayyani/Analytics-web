@@ -1,0 +1,83 @@
+@use '../../assets/styles/variables' as vars;
+@use '../../assets/styles/mixins'   as mixins; // if you have a respond() mixin
+
+.sidebar {
+  align-items: center;
+  backdrop-filter: blur(15px);
+  background: vars.$linear-background;
+  color: vars.$white-color;
+  display: none;
+  flex-direction: column;
+  gap: 24px;
+  height: 100%;
+  justify-content: center;
+  left: 0;
+  padding: 32px;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 101;
+
+  h1 {
+    font-size: 24px;
+    font-weight: 400;
+  }
+
+  @include mixins.respond(laptop) {
+    align-items: start;
+    border-radius: vars.$primary-border-radius;
+    height: 68%;
+    justify-content: start;
+    left: 45px;
+    top: 150px;
+    width: 286px;
+  }
+}
+
+.sidebar.openSideBar {
+  display: flex;
+}
+
+.sectionContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dropdownToggle {
+  background-color: transparent;
+  border: none;
+  color: vars.$white-color;
+  display: flex;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 1rem;
+
+  &:hover {
+    background-color: vars.$black-color-opacity4;
+  }
+}
+
+.dropdown {
+  margin-left: 48px;
+  height: fit-content;
+  display: block;
+}
+
+.closeSideBar {
+  display: block;
+  position: absolute;
+  right: 45px;
+  cursor: pointer;
+  top: 45px;
+
+  @include mixins.respond(laptop) {
+    display: none;
+  }
+}
+
+li {
+  cursor: pointer;
+  color: vars.$white-color;
+  min-height: 35px;
+}
