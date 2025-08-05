@@ -1,19 +1,20 @@
-// src/components/sidebar.ts
-import './Sidebar.scss';
+import "./Sidebar.scss";
 
 export interface SidebarProps {
-  isOpen:  boolean;
+  isOpen: boolean;
   onClose: () => void;
 }
 
 export function Sidebar({ isOpen, onClose }: SidebarProps): HTMLElement {
-  // 1) container
-  const nav = document.createElement('nav');
-  nav.id = 'sidebarElement';
-  nav.classList.add('sidebar');
-  if (isOpen) nav.classList.add('openSideBar');
+  const nav = document.createElement("nav");
+  nav.id = "sidebarElement";
+  nav.classList.add("sidebar");
 
-  // 2) inner markup (you can inline your HTML or build via DOM API)
+  // open/close class
+  if (isOpen) {
+    nav.classList.add("openSideBar");
+  }
+
   nav.innerHTML = `
     <div class="closeSideBar">
       <img src="/src/assets/icons/Close.svg" alt="Close" id="closeSidebarBtn" />
@@ -41,39 +42,64 @@ export function Sidebar({ isOpen, onClose }: SidebarProps): HTMLElement {
     <div class="sectionContainer">
       <h1>Pages</h1>
       <ul>
-        ${dropdownItem('User Profile', 'UserProfile')}
-        ${dropdownItem('Accounts',     'Account')}
-        ${dropdownItem('Corporate',    'Corporate')}
+        ${dropdownItem("User Profile", "UserProfile", [
+          { text: "Profile Info", href: "/user/profile" },
+          { text: "Preferences", href: "/user/preferences" },
+          { text: "Privacy Settings", href: "/user/privacy" },
+        ])}
+        ${dropdownItem("Accounts", "Account", [
+          { text: "Billing", href: "/account/billing" },
+          { text: "Subscriptions", href: "/account/subscriptions" },
+          { text: "Invoices", href: "/account/invoices" },
+        ])}
+        ${dropdownItem("Corporate", "Corporate", [
+          { text: "Company Info", href: "/corporate/info" },
+          { text: "Teams", href: "/corporate/teams" },
+          { text: "Access Management", href: "/corporate/access" },
+        ])}
       </ul>
     </div>
   `;
 
-  // 3) events
   // close button
-  nav.querySelector<HTMLElement>('#closeSidebarBtn')
-     ?.addEventListener('click', () => onClose());
+  nav
+    .querySelector<HTMLElement>("#closeSidebarBtn")
+    ?.addEventListener("click", () => onClose());
 
-  // dropdown toggles
-  nav.querySelectorAll<HTMLElement>('.dropdownToggle').forEach(toggle => {
-    toggle.addEventListener('click', () => {
-      const target = toggle.dataset.target!;
-      const dd = nav.querySelector<HTMLElement>(`#${target}`);
-      if (dd) dd.classList.toggle('show');
+  // dropdowns
+  nav.querySelectorAll<HTMLElement>(".dropdownToggle").forEach((toggle) => {
+    toggle.addEventListener("click", () => {
+      const targetId = toggle.dataset.target!;
+      const dropdown = nav.querySelector<HTMLElement>(`#${targetId}`);
+      dropdown?.classList.toggle("show");
     });
   });
 
-  // click-away to close
-  document.addEventListener('click', (e) => {
-    if (isOpen && !nav.contains(e.target as Node)) {
-      onClose();
-    }
-  });
+  // click-away
+  setTimeout(() => {
+    const handleClick = (e: MouseEvent) => {
+      if (isOpen && !nav.contains(e.target as Node)) {
+        onClose();
+        document.removeEventListener("click", handleClick);
+      }
+    };
+    document.addEventListener("click", handleClick);
+  }, 0);
 
   return nav;
 }
 
-function dropdownItem(label: string, iconName: string) {
-  const id = 'dropdown' + label.replace(/\s+/g, '');
+function dropdownItem(
+  label: string,
+  iconName: string,
+  links: { text: string; href: string }[]
+) {
+  const id = "dropdown" + label.replace(/\s+/g, "");
+
+  const linksHTML = links
+    .map((link) => `<li><a href="${link.href}">${link.text}</a></li>`)
+    .join("");
+
   return `
     <li>
       <button class="dropdownToggle" data-target="${id}">
@@ -82,9 +108,7 @@ function dropdownItem(label: string, iconName: string) {
         <p>${label}</p>
       </button>
       <ul class="dropdown" id="${id}">
-        <li><a href="/profile/overview">Overview</a></li>
-        <li><a href="/profile/settings">Settings</a></li>
-        <li><a href="/profile/security">Security</a></li>
+        ${linksHTML}
       </ul>
     </li>
   `;

@@ -42,5 +42,20 @@ export function Modal({
   children.forEach((child) => chartsWrapper.appendChild(child));
   modalEl.appendChild(chartsWrapper);
 
-  return modalEl;
+    // Outer overlay wrapper
+  const overlay = document.createElement("div");
+  overlay.classList.add("modal-overlay");
+  if (isOpen) overlay.classList.add("open");
+
+  // Close on outside click
+  overlay.addEventListener("click", (e) => {
+    const target = e.target as Node;
+    if (!modalEl.contains(target)) {
+      onClose();
+    }
+  });
+
+  overlay.appendChild(modalEl)
+
+  return overlay;
 }

@@ -1,4 +1,5 @@
 import { App } from './app.ts';
+import './style.scss'
 
 const root = document.getElementById('root');
 if (!root) {

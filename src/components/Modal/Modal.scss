@@ -59,3 +59,16 @@
   overflow-y: auto;
   padding-bottom: 80px;
 }
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+/* Optional fade-in or visibility handling */
+.modal-overlay:not(.open) {
+  display: none;
+}
