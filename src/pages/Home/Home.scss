@@ -1,5 +1,13 @@
 @use '../../assets/styles/variables' as vars;
 @use '../../assets/styles/mixins'   as mixins;
+@import url('../../style.scss');
+@import url('../../components/Header/Header.scss');
+@import url('../../components/LineChart/LineChart.scss');
+@import url('../../components/Modal/Modal.scss');
+@import url('../../components/ProgressBarChart/ProgressBarChart.scss');
+@import url('../../components/Sidebar/Sidebar.scss');
+@import url('../../components/TotalPowerChart/TotalPowerChart.scss');
+
 
 .home-container {
   display: flex;

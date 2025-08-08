@@ -2,19 +2,12 @@
 import closeIconUrl from '../../assets/icons/Close.svg?url';
 import './Modal.scss'
 
-export interface ModalProps {
-  isOpen: boolean;
-  floorNum: number;
-  onClose: () => void;
-  children?: HTMLElement[]; // array of chart/container elements
-}
-
-export function Modal({
+export const Modal = ({
   isOpen,
   floorNum,
   onClose,
   children = [],
-}: ModalProps): HTMLElement {
+}) => {
   // <section class="modal-container">...
   const modalEl = document.createElement('section');
   modalEl.classList.add('modal-container');
@@ -49,7 +42,7 @@ export function Modal({
 
   // Close on outside click
   overlay.addEventListener("click", (e) => {
-    const target = e.target as Node;
+    const target = e.target;
     if (!modalEl.contains(target)) {
       onClose();
     }

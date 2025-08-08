@@ -1,11 +1,8 @@
+// src/components/Sidebar.js
+
 import "./Sidebar.scss";
 
-export interface SidebarProps {
-  isOpen: boolean;
-  onClose: () => void;
-}
-
-export function Sidebar({ isOpen, onClose }: SidebarProps): HTMLElement {
+export const Sidebar = ({ isOpen, onClose }) => {
   const nav = document.createElement("nav");
   nav.id = "sidebarElement";
   nav.classList.add("sidebar");
@@ -63,22 +60,22 @@ export function Sidebar({ isOpen, onClose }: SidebarProps): HTMLElement {
 
   // close button
   nav
-    .querySelector<HTMLElement>("#closeSidebarBtn")
+    .querySelector("#closeSidebarBtn")
     ?.addEventListener("click", () => onClose());
 
   // dropdowns
-  nav.querySelectorAll<HTMLElement>(".dropdownToggle").forEach((toggle) => {
+  nav.querySelectorAll(".dropdownToggle").forEach((toggle) => {
     toggle.addEventListener("click", () => {
-      const targetId = toggle.dataset.target!;
-      const dropdown = nav.querySelector<HTMLElement>(`#${targetId}`);
+      const targetId = toggle.dataset.target;
+      const dropdown = nav.querySelector(`#${targetId}`);
       dropdown?.classList.toggle("show");
     });
   });
 
   // click-away
   setTimeout(() => {
-    const handleClick = (e: MouseEvent) => {
-      if (isOpen && !nav.contains(e.target as Node)) {
+    const handleClick = (e) => {
+      if (isOpen && !nav.contains(e.target)) {
         onClose();
         document.removeEventListener("click", handleClick);
       }
@@ -87,13 +84,9 @@ export function Sidebar({ isOpen, onClose }: SidebarProps): HTMLElement {
   }, 0);
 
   return nav;
-}
+};
 
-function dropdownItem(
-  label: string,
-  iconName: string,
-  links: { text: string; href: string }[]
-) {
+const dropdownItem = (label, iconName, links) => {
   const id = "dropdown" + label.replace(/\s+/g, "");
 
   const linksHTML = links
@@ -112,4 +105,4 @@ function dropdownItem(
       </ul>
     </li>
   `;
-}
+};

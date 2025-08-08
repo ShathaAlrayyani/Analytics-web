@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home Page with Components</title>
+  <link rel="stylesheet" href="./Home.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div id="app"></div>
+
+  <script>
+    const bgImgSrc = './assets/images/Home.png';
+    const imgSrc = './assets/images/LighImg.png';
+
+    function LineChart({ firstLineData, secLineData, title, xAxisLabels }) {
+      const container = document.createElement("div");
+      container.classList.add("line-chart-container", "home-chart-container");
+
+      const titleEl = document.createElement("p");
+      titleEl.classList.add("chart-title");
+      titleEl.textContent = title;
+      container.appendChild(titleEl);
+
+      const canvas = document.createElement("canvas");
+      container.appendChild(canvas);
+
+      const data = {
+        labels: xAxisLabels,
+        datasets: [
+          { label: firstLineData.label, data: firstLineData.data, borderColor: "#aec7ed", tension: 0.4, pointRadius: 0, borderWidth: 2, borderDash: [6, 3], fill: false },
+          { label: secLineData.label, data: secLineData.data, borderColor: "#ff7f0e", tension: 0.4, borderWidth: 2, pointRadius: 0, fill: false }
+        ]
+      };
+
+      const options = {
+        responsive: true,
+        plugins: { legend: { display: false }, tooltip: { enabled: true } },
+        scales: { y: { beginAtZero: true } }
+      };
+
+      requestAnimationFrame(() => {
+        new Chart(canvas, { type: "line", data, options });
+      });
+
+      return container;
+    }
+
+    function Modal({ isOpen, floorNum, onClose, children = [] }) {
+      const modalEl = document.createElement('section');
+      modalEl.classList.add('modal-container');
+      if (isOpen) modalEl.classList.add('open');
+
+      const iconWrapper = document.createElement('div');
+      iconWrapper.classList.add('icon-wrapper');
+      const title = document.createElement('h1');
+      title.innerText = `Floor No.${floorNum} Analytics`;
+      iconWrapper.appendChild(title);
+      const closeBtn = document.createElement('img');
+      closeBtn.src = './assets/icons/Close.svg';
+      closeBtn.alt = 'Close';
+      closeBtn.onclick = onClose;
+      iconWrapper.appendChild(closeBtn);
+      modalEl.appendChild(iconWrapper);
+
+      const chartsWrapper = document.createElement('div');
+      chartsWrapper.classList.add('all-charts-wrapper');
+      children.forEach((child) => chartsWrapper.appendChild(child));
+      modalEl.appendChild(chartsWrapper);
+
+      const overlay = document.createElement("div");
+      overlay.classList.add("modal-overlay", "open");
+      overlay.addEventListener("click", (e) => {
+        if (!modalEl.contains(e.target)) onClose();
+      });
+      overlay.appendChild(modalEl);
+
+      return overlay;
+    }
+
+    function Header({ onAnalyticsClick, onMenuClick }) {
+      const header = document.createElement("header");
+      header.classList.add("header-wrapper");
+
+      const left = document.createElement("div");
+      left.classList.add("header-container");
+      const menuImg = document.createElement("img");
+      menuImg.src = './assets/icons/Menu.svg';
+      menuImg.alt = 'Menu';
+      menuImg.onclick = onMenuClick;
+      left.appendChild(menuImg);
+
+      const logo = document.createElement("img");
+      logo.src = './assets/images/Logo.png';
+      logo.alt = 'Logo';
+      left.appendChild(logo);
+
+      const brandText = document.createElement("p");
+      brandText.innerHTML = `Workstation<br/>by Innowave`;
+      left.appendChild(brandText);
+
+      const right = document.createElement("div");
+      right.classList.add("header-container");
+      const analyticsBtn = document.createElement("img");
+      analyticsBtn.src = './assets/icons/Analytics.svg';
+      analyticsBtn.alt = 'Analytics';
+      analyticsBtn.onclick = onAnalyticsClick;
+      right.appendChild(analyticsBtn);
+
+      header.appendChild(left);
+      header.appendChild(right);
+
+      return header;
+    }
+
+    function ProgressBar({ percentage, prevPercentage, title, total }) {
+      const wrapper = document.createElement("div");
+      wrapper.classList.add("progress-bar-wrapper");
+      wrapper.innerHTML = `
+        <p class="progress-title">${title}</p>
+        <div class="progress-container">
+          <div class="progress-bar" style="width:${percentage}%"></div>
+        </div>
+        <div class="progress-bottom">
+          <p>Total: ${total}</p>
+          <p>Prev: ${prevPercentage}%</p>
+        </div>
+      `;
+      return wrapper;
+    }
+
+    function TotalPowerChart({ powerPercentage, prevPercentage, title = "Total Power", totalNum }) {
+      const container = document.createElement("div");
+      container.classList.add("total-power-chart-container");
+      container.innerHTML = `
+        <p>${title}</p>
+        <div class="total-power-chart-bottom-part-wrapper">
+          <div class="total-power-chart-total-wrapper">
+            <h1>${totalNum}</h1>
+            <p>${prevPercentage}%</p>
+          </div>
+        </div>
+      `;
+      return container;
+    }
+
+    function Sidebar({ isOpen, onClose }) {
+      const nav = document.createElement("nav");
+      nav.classList.add("sidebar");
+      if (isOpen) nav.classList.add("openSideBar");
+
+      nav.innerHTML = `
+        <div class="closeSideBar">
+          <img src="./assets/icons/Close.svg" alt="Close" id="closeSidebarBtn" />
+        </div>
+        <div class="sectionContainer">
+          <h1>Dashboards</h1>
+          <ul>
+            <li><img src="./assets/icons/Overview.svg" alt="Overview" /> Overview</li>
+          </ul>
+        </div>
+      `;
+
+      nav.querySelector("#closeSidebarBtn").onclick = onClose;
+      return nav;
+    }
+
+    function Home(container) {
+      class HomePage {
+        isModalOpen = false;
+        isSidebarOpen = false;
+        rootEl = document.createElement("section");
+
+        constructor(parent) {
+          this.rootEl.classList.add("home-container");
+          parent.appendChild(this.rootEl);
+          this.render();
+        }
+
+        render() {
+          this.rootEl.innerHTML = "";
+
+          this.rootEl.appendChild(Sidebar({
+            isOpen: this.isSidebarOpen,
+            onClose: () => { this.isSidebarOpen = false; this.render(); }
+          }));
+
+          const modalChildren = [];
+          if (this.isModalOpen) {
+            modalChildren.push(LineChart({
+              title: 'Total Power',
+              firstLineData: { label: 'First', data: [10, 20, 30, 25, 15] },
+              secLineData: { label: 'Second', data: [12, 18, 22, 28, 20] },
+              xAxisLabels: ['Jan', 'Feb', 'Mar', 'Apr', 'May']
+            }));
+            modalChildren.push(TotalPowerChart({ powerPercentage: 70, prevPercentage: -5, totalNum: 4000 }));
+            modalChildren.push(ProgressBar({ title: 'Visits', percentage: 53, total: 1130, prevPercentage: -0.3 }));
+          }
+
+          if (this.isModalOpen) {
+            this.rootEl.appendChild(Modal({
+              isOpen: this.isModalOpen,
+              floorNum: 3,
+              onClose: () => { this.isModalOpen = false; this.render(); },
+              children: modalChildren
+            }));
+          }
+
+          const bg = document.createElement("img");
+          bg.classList.add("home-bg-img");
+          bg.src = bgImgSrc;
+          bg.alt = "Home Background";
+          this.rootEl.appendChild(bg);
+
+          this.rootEl.appendChild(Header({
+            onAnalyticsClick: () => { this.isModalOpen = true; this.render(); },
+            onMenuClick: () => { this.isSidebarOpen = !this.isSidebarOpen; this.render(); }
+          }));
+        }
+      }
+      new HomePage(container);
+    }
+
+    Home(document.getElementById("app"));
+  </script>
+</body>
+</html>

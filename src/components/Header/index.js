@@ -1,16 +1,11 @@
-// src/components/header.ts
+// src/components/Header.js
 import menuIconUrl from '../../assets/icons/Menu.svg?url';
 import logoUrl from '../../assets/images/Logo.png';
 import analyticsIconUrl from '../../assets/icons/Analytics.svg?url';
 
 import './Header.scss'
 
-export interface HeaderProps {
-  onAnalyticsClick: () => void;
-  onMenuClick: () => void;
-}
-
-export function Header({ onAnalyticsClick, onMenuClick }: HeaderProps): HTMLElement {
+export function Header({ onAnalyticsClick, onMenuClick }) {
   // <header class="header-wrapper">
   const headerEl = document.createElement('header');
   headerEl.classList.add('header-wrapper');

@@ -1,24 +1,12 @@
-// src/components/progress-bar.ts
+// src/components/ProgressBar.js
 import arrowUrl from "../../assets/icons/ArrowFall.svg?url";
 import "./ProgressBarChart.scss";
-
-export interface ProgressBarProps {
-  percentage: number;
-  prevPercentage: number;
-  title: string;
-  total: number;
-}
 
 /**
  * Creates a horizontal progress bar with a title, current % bar,
  * and bottom stats including previous % with an arrow icon.
  */
-export function ProgressBar({
-  percentage,
-  prevPercentage,
-  title,
-  total,
-}: ProgressBarProps): HTMLElement {
+export const ProgressBar = ({ percentage, prevPercentage, title, total }) => {
   const wrapper = document.createElement("div");
   wrapper.classList.add("progress-bar-wrapper");
 
@@ -62,4 +50,4 @@ export function ProgressBar({
   wrapper.appendChild(bottom);
 
   return wrapper;
-}
+};

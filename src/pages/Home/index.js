@@ -11,14 +11,14 @@ import { ProgressBar } from "../../components/ProgressBarChart/index.js";
 import { Sidebar } from "../../components/Sidebar/index.js";
 import { TotalPowerChart } from "../../components/TotalPowerChart/index.js";
 
-export function Home(container: HTMLElement) {
+export function Home(container) {
   class HomePage {
-    private rootEl: HTMLElement;
-    private parent: HTMLElement;
-    private isModalOpen = false;
-    private isSidebarOpen = false;
+    rootEl;
+    parent;
+    isModalOpen = false;
+    isSidebarOpen = false;
 
-    constructor(parent: HTMLElement) {
+    constructor(parent) {
       this.parent = parent;
       this.rootEl = document.createElement("section");
       this.rootEl.classList.add("home-container");
@@ -26,7 +26,7 @@ export function Home(container: HTMLElement) {
       this.render();
     }
 
-    private render() {
+    render() {
       // clear out
       this.rootEl.innerHTML = "";
 
@@ -41,7 +41,7 @@ export function Home(container: HTMLElement) {
       this.rootEl.appendChild(sidebarEl);
 
       // — Modal & its children
-      const modalChildren: HTMLElement[] = [];
+      const modalChildren = [];
       if (this.isModalOpen) {
         // 1️⃣ First LineChart
         const chart1 = document.createElement("div");
@@ -154,10 +154,6 @@ export function Home(container: HTMLElement) {
         },
         onMenuClick: () => {
           this.isSidebarOpen = !this.isSidebarOpen;
-          console.log(
-            "🚀 ~ HomePage ~ render ~ this.isSidebarOpen:",
-            this.isSidebarOpen
-          );
           this.render();
         },
       });

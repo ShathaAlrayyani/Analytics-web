@@ -25,26 +25,15 @@ Chart.register(
   Filler
 );
 
-export interface LineChartData {
-  label: string;
-  data: number[];
-}
-export interface LineChartProps {
-  firstLineData: LineChartData;
-  secLineData: LineChartData;
-  title: string;
-  xAxisLabels: string[];
-}
-
 /**
  * Creates a line‐chart wrapped in a div.
  */
-export function LineChart({
+export const LineChart = ({
   firstLineData,
   secLineData,
   title,
   xAxisLabels,
-}: LineChartProps): HTMLElement {
+}) => {
   // container
   const container = document.createElement("div");
   container.classList.add("line-chart-container");
@@ -106,4 +95,4 @@ export function LineChart({
   });
 
   return container;
-}
+};
